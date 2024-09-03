@@ -18,8 +18,8 @@ load_duckdb_pipeline = dlt.pipeline(
 )
 
 sessions_file = readers(
-    bucket_url=f"{dlt.config["source_data.bucket_name"]/{dlt.config["source_data.folder_name"]}}",
-    file_glob=dlt.config["source_data.file_name"]
+    bucket_url=dlt.config["source.filesystem.bucket_url"],
+    file_glob=dlt.config["source.filesystem.file_path"]
 ).read_csv()
 
 run_info = load_duckdb_pipeline.run(sessions_file.with_name(dlt.config["duckdb.source_table"]))
@@ -36,7 +36,7 @@ dbt_runner.run_all()
 
 load_gcs_pipeline = dlt.pipeline(
     pipeline_name="load_gcs_pipeline",
-    dataset_name=dlt.config["destination.filesystem.folder_name"],
+    dataset_name=dlt.config["destination.filesystem.schema_name"],
     destination=filesystem(
         layout="{table_name}.{ext}"
     )
@@ -48,4 +48,4 @@ def get_customer_dimensions_df():
     df = ga_db.query("SELECT * FROM staging.stg_users_dim").df()
     return df
 
-run_info = load_gcs_pipeline.run(get_customer_dimensions_df(), table_name=dlt.config["destination.filesystem.file_name"], loader_file_format="csv")
+run_info = load_gcs_pipeline.run(get_customer_dimensions_df(), table_name=dlt.config["destination.filesystem.table_name"], loader_file_format="csv")

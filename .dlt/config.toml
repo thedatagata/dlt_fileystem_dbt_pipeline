@@ -6,7 +6,7 @@ disable_compression=true
 
 [source.filesystem]
 bucket_url="gs://wt-source_data/"
-file_path="google_analytics/src_sessions.csv"
+file_path="google_analytics_data/src_sessions.csv"
 
 [duckdb]
 db_file_path="data/data_swamp.duckdb"
@@ -18,8 +18,9 @@ repo_url="https://github.com/thedatagata/dlt_dbt_models.git"
 package_profile="dbt_models"
 
 [destination.filesystem]
-folder_name="google_analytics" 
-file_name="customer_dimensions"
+bucket_url="gs://wt-aep_staging/"
+schema_name="customer_data"
+table_name="ga_user_data"
 
 
 
