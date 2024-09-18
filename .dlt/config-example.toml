@@ -1,26 +1,26 @@
 [runtime]
-dlthub_telemetry = {true for logs and false for no logs}
+dlthub_telemetry = true
 
 [normalize.data_writer]
-disable_compression={to parquet set to true and to not parquet set to false}
+disable_compression=true
 
 [source.filesystem]
-bucket_url="gs://{REPLACE_WITH_SOURCE_BUCKET_NAME}"
-file_path="{REPLACE_WITH_PATH_TO_SOURCE_FILE}"
+bucket_url="gs://dlt-demo_source-data/"
+file_path="src_google_analytics/src_ga_sessions_fct.csv"
 
 [duckdb]
 db_file_path="data/data.duckdb"
-source_schema="{REPLACE_WITH_NAME_FOR_SCHEMA_TO_LOAD_SOURCE_DATA}"
-source_table="{REPLACE_WITH_NAME_FOR_TABLE_TO_LOAD_SOURCE_DATA}"
+source_schema="src_google_analytics"
+source_table="src_ga_sessions_fct"
 
 [dbt_repo]
-repo_url="{REPLACE_WITH_URL_TO_CLONE_DBT_PROJECT_REPO}"
-package_profile="{REPLACE_WITH_DBT_PROFILE_NAME}"
+repo_url="https://github.com/thedatagata/dlt_dbt_models"
+package_profile="dbt_models"
 
 [destination.filesystem]
-bucket_url="gs://{REPLACE_WITH_DESTINATION_BUCKET_NAME}"
-schema_name="{REPLACE_WITH_NAME_OF_FOLDER_TO_LOAD_TRANSFORMED_DATA}"
-table_name="{REPLACE_WITH_NAME_FOR_FILE_CONTAINING_TRANSFORMED_DATA}"
+bucket_url="gs://dlt-demo_staging-data"
+schema_name="stg_google_analytics"
+table_name="stg_ga_users_dim"
 
 
 
